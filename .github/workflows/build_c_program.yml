@@ -1,0 +1,26 @@
+name: Build Windows C Program
+
+on:
+  push:
+    branches: [ main ]   # runs whenever you push to main branch
+  workflow_dispatch:     # allows manual run
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install GCC
+        run: choco install mingw -y
+
+      - name: Compile program
+        run: gcc main.c -o program.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: program
+          path: program.exe
